@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+  <!-- ===== SEO DASAR ===== -->
+  <title>Samkat – Sambung Kata | Cheatsheet roblox map sambung kata  </title>
+  <meta name="description"
+    content="Samkat, kamus referensi kata Bahasa Indonesia buat nyari & nyontek jawaban di map Roblox Sambung Kata.">
+  <meta name="keywords"
+    content="samkat, sambung kata, roblox sambung kata, cari kata awalan, cari kata akhiran, kamus kata indonesia, tts, scrabble indonesia, push index">
+  <meta name="author" content="gxjpeg">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://sambungkata.gxjpeg.workers.dev/">
+
+  <!-- ===== FAVICON / LOGO TAB BROWSER ===== -->
+  <link rel="icon" type="image/png" href="assets/gx.png">
+  <link rel="apple-touch-icon" href="assets/gx.png">
+
+  <!-- ===== OPEN GRAPH (preview pas di-share ke WA/Discord/Twitter/dll) ===== -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Samkat">
+  <meta property="og:title" content="Samkat – Cari Kata Awalan & Akhiran buat Sambung Kata">
+  <meta property="og:description"
+    content="Samkat, kamus referensi kata Bahasa Indonesia buat nyari & nyontek jawaban di map Roblox Sambung Kata.">
+  <meta property="og:image" content="https://sambungkata.gxjpeg.workers.dev/assets/gx.png">
+  <meta property="og:url" content="https://sambungkata.gxjpeg.workers.dev/">
+  <meta property="og:locale" content="id_ID">
+
+  <!-- ===== TWITTER CARD ===== -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Samkat – Cari Kata Awalan & Akhiran buat Sambung Kata">
+  <meta name="twitter:description"
+    content="Samkat, kamus referensi kata Bahasa Indonesia buat nyari & nyontek jawaban di map Roblox Sambung Kata.">
+  <meta name="twitter:image" content="https://sambungkata.gxjpeg.workers.dev/assets/gx.png">
+
+  <!-- ===== STRUCTURED DATA (biar Google ngerti ini web app apa) ===== -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Samkat",
+    "url": "https://sambungkata.gxjpeg.workers.dev/",
+    "description": "Samkat, kamus referensi kata Bahasa Indonesia buat nyari & nyontek jawaban di map Roblox Sambung Kata.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "author": {
+      "@type": "Person",
+      "name": "gxjpeg"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "IDR"
+    }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;family=Merriweather:wght@400;700&amp;family=Playfair+Display:wght@400;600;700&amp;family=Lora:wght@400;500;600&amp;family=PT+Serif:wght@400;700&amp;family=Inter:wght@400;500;600&amp;family=Montserrat:wght@400;500;600&amp;family=Poppins:wght@400;500;600&amp;family=Roboto:wght@400;500;600&amp;family=Nunito:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Roboto+Mono:wght@400;500;600&amp;family=Space+Mono:wght@400;700&amp;family=Fira+Code:wght@400;500;600&amp;family=Baloo+2:wght@500;600;700&amp;family=Quicksand:wght@500;600;700&amp;family=Comfortaa:wght@500;600;700&amp;family=Varela+Round&amp;family=Fredoka:wght@500;600;700&amp;display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=202608141">
+</head>
+
+<body data-theme="dark">
+  <main>
+  <div class="shell">
+
+    <div class="header">
+  <div class="brand">
+    <h1>Samkat</h1>
+    <span>by gxjpeg</span>
+  </div>
+  <div class="header-nav">
+    <a href="https://discord.gg/zrcrBNJwX" target="_blank" rel="noopener" class="header-nav-link discord-link">Discord</a>
+    <a href="https://saweria.co/gxjpeg" target="_blank" rel="noopener" class="header-nav-link donate-link">Donate</a>
+    <button class="header-nav-link auth-link" id="authOpenBtn">Masuk</button>
+  </div>
+  <div class="header-actions">
+    <div class="header-icons">
+      <button class="icon-btn" id="themeToggle" title="Ganti tema">🌙</button>
+      <button class="icon-btn" id="dbToggle" title="Kelola kamus">⚙️</button>
+    </div>
+    <div class="word-total"><b id="totalWordCount">0</b> kata</div>
+  </div>
+</div>
+
+    <div class="tabs">
+      <div class="tab active" data-tab="pencarian">Pencarian</div>
+      <div class="tab" data-tab="push">Push Index</div>
+      <div class="tab" data-tab="kompe">Kompe</div>
+    </div>
+
+
+    <section class="push-view" id="pushView">
+      <div class="push-input-row">
+        <div class="input-wrap">
+          <input type="text" id="pushAwalanInput" autocomplete="off" placeholder="a...">
+        </div>
+        <span class="push-input-sep">–</span>
+        <div class="input-wrap">
+          <input type="text" id="pushAkhiranInput" autocomplete="off" placeholder="...z">
+        </div>
+      </div>
+      <div class="index-group">
+        <div class="index-group-head">
+          <div class="index-group-title">Awalan</div><button class="index-clear" data-clear-index="start">hapus
+            pilihan</button>
+        </div>
+        <div class="index-grid" id="startIndexGrid"></div>
+      </div>
+      <div class="index-group">
+        <div class="index-group-head">
+          <div class="index-group-title">Akhiran</div><button class="index-clear" data-clear-index="end">hapus
+            pilihan</button>
+        </div>
+        <div class="index-grid" id="endIndexGrid"></div>
+      </div>
+      <div class="push-global-row">
+        <span class="push-global-summary" id="pushGlobalSummary"><b>0</b>/0 index terpush | 0%</span>
+      </div>
+      <div class="push-word-toolbar">
+        <div class="push-word-count" id="pushWordCount">Pilih awalan atau akhiran</div>
+        <div class="toolbar-right">
+          <div class="view-toggle" id="pushViewToggle">
+            <button data-pv="list" class="active" title="List">☰</button>
+            <button data-pv="grid" title="Grid">▦</button>
+          </div>
+          <div class="custom-select" id="pushSortSelect">
+            <button type="button" class="custom-select-trigger">
+              <span class="custom-select-trigger-label">A-Z</span>
+              <span class="custom-select-chevron">▾</span>
+            </button>
+            <div class="custom-select-dropdown">
+              <button type="button" class="custom-select-option" data-value="random">Acak</button>
+              <button type="button" class="custom-select-option active" data-value="az">A-Z</button>
+              <button type="button" class="custom-select-option" data-value="za">Z-A</button>
+              <button type="button" class="custom-select-option" data-value="short">Terpendek</button>
+              <button type="button" class="custom-select-option" data-value="long">Terpanjang</button>
+            </div>
+          </div>
+          <button class="push-undo-btn" id="pushUndoBtn" disabled title="Batalin push terakhir (bisa 1 kata atau banyak sekaligus)">↩ Undo</button>
+        </div>
+      </div>
+      <div class="push-batch-toolbar">
+        <button class="push-batch-btn" id="pushAllBtn">Push Semua</button>
+        <button class="push-batch-btn" id="pushRangeToggleBtn">Pilih Rentang</button>
+      </div>
+      <div class="push-range-info" id="pushRangeInfo" style="display:none;">
+        <span id="pushRangeInfoText">Tap kata pertama buat mulai milih rentang</span>
+        <div class="push-range-info-actions">
+          <button class="push-batch-btn primary" id="pushRangeConfirmBtn" disabled>Push yang Dipilih</button>
+          <button class="push-batch-btn ghost" id="pushRangeCancelBtn">Batal</button>
+        </div>
+      </div>
+      <div class="push-words" id="pushWords"></div>
+    </section>
+
+    <section class="kompe-view" id="kompeView">
+      <div class="kompe-modes">
+        <button class="kompe-mode active" data-kompe-mode="normal">Mode Normal</button>
+        <button class="kompe-mode" data-kompe-mode="brutal">Mode Brutal</button>
+        <button class="kompe-mode" data-kompe-mode="trap">Trap</button>
+      </div>
+    
+      <div class="input-wrap kompe-search" id="kompeSearchWrap">
+        <input type="text" id="kompeSearchInput" autocomplete="off" placeholder="a...">
+      </div>
+    
+      <div class="kompe-actions">
+        <button class="kompe-btn" id="kompeBukaPresetBtn">Preset</button>
+        <button class="kompe-btn" id="kompeBuatGrupBtn">Buat Grup</button>
+        <button class="kompe-btn" id="kompeKelolaTrapBtn" style="display:none;">Kelola Trap Word</button>
+        <div class="kompe-actions-right">
+          <button class="kompe-btn ghost danger" id="kompeResetBtn">Reset</button>
+        </div>
+      </div>
+      <div class="kompe-preset-current-label" id="kompePresetCurrentLabel" style="margin:-8px 0 12px;"></div>
+    
+      <div class="kompe-board" id="kompeBoard">
+        <div class="kompe-col kompe-groups">
+          <div class="kompe-col-title">Grup Trap</div>
+          <div class="kompe-group-list" id="kompeGroupList"></div>
+        </div>
+      
+        <div class="kompe-content" id="kompeContent">
+          <div class="kompe-content-split">
+            <div class="kompe-content-col">
+              <div class="kompe-col-title">Rekomendasi Jawaban</div>
+              <div class="kompe-word-list" id="kompeWordList"></div>
+            </div>
+            <div class="kompe-content-col">
+              <div class="kompe-col-title">Trigger Trap</div>
+              <div class="kompe-word-list kompe-trigger-list" id="kompeTriggerList"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="kompe-trap-panel" id="kompeTrapPanel" style="display:none;">
+        <p class="hint" style="margin-bottom:10px;">Cari kandidat trap baru: suffix yang punya banyak trigger tapi dikit counter/solve. Ga menjamin bakal spawn di in-game.</p>
+
+        <div class="kompe-trap-length-row" id="trapLengthRow">
+          <button class="kompe-trap-len-btn" data-trap-len="2">2 huruf</button>
+          <button class="kompe-trap-len-btn" data-trap-len="3">3 huruf</button>
+          <button class="kompe-trap-len-btn" data-trap-len="4">4 huruf</button>
+          <button class="kompe-trap-len-btn active" data-trap-len="5">5 huruf</button>
+        </div>
+
+        <div class="kompe-trap-filter-grid">
+          <div class="kompe-trap-filter-field">
+            <label for="trapTriggerMin">Trigger Min</label>
+            <input type="number" id="trapTriggerMin" min="0" placeholder="bebas">
+          </div>
+          <div class="kompe-trap-filter-field">
+            <label for="trapTriggerMax">Trigger Max</label>
+            <input type="number" id="trapTriggerMax" min="0" placeholder="bebas">
+          </div>
+          <div class="kompe-trap-filter-field">
+            <label for="trapCounterMin">Solve Min</label>
+            <input type="number" id="trapCounterMin" min="0" placeholder="bebas">
+          </div>
+          <div class="kompe-trap-filter-field">
+            <label for="trapCounterMax">Solve Max</label>
+            <input type="number" id="trapCounterMax" min="0" placeholder="bebas">
+          </div>
+        </div>
+
+        <div class="kompe-trap-summary" id="trapResultSummary">Atur filter di atas buat mulai...</div>
+        <div class="kompe-trap-results" id="trapResults"></div>
+      </div>
+    </section>
+
+    <div class="search-section segment" id="filterSegment">
+      <button data-mode="awalan" class="active">
+        <span class="seg-pattern"><span class="seg-fill">A</span>···</span>
+        <span class="seg-label">Awalan</span>
+      </button>
+      <button data-mode="akhiran">
+        <span class="seg-pattern">···<span class="seg-fill">Z</span></span>
+        <span class="seg-label">Akhiran</span>
+      </button>
+      <button data-mode="both">
+        <span class="seg-pattern"><span class="seg-fill">A</span>···<span class="seg-fill">Z</span></span>
+        <span class="seg-label">awalan + akhiran</span>
+      </button>
+      <button data-mode="mengandung">
+        <span class="seg-pattern">·<span class="seg-fill">A</span>·</span>
+        <span class="seg-label">Berisi</span>
+      </button>
+    </div>
+
+    <div class="search-section input-row" id="inputRow"></div>
+
+    <div class="search-section chip-row">
+      <div class="chip" id="favChip">⭐ favorit</div>
+      <div class="chip blocked-chip" id="blockedChip">🚫 <span id="blockedCount">0</span> diblokir</div>
+      <div class="chip custom-chip" id="customWordsChip">✏️ <span id="customWordsCount">0</span> kata kustom</div>
+    </div>
+
+    <div class="search-section toolbar">
+      <div class="result-count"><b id="resultCount">0</b> kata</div>
+      <div class="toolbar-right">
+        <div class="custom-select" id="sortSelect" aria-label="Urutkan hasil">
+          <button type="button" class="custom-select-trigger">
+            <span class="custom-select-trigger-label">A-Z</span>
+            <span class="custom-select-chevron">▾</span>
+          </button>
+          <div class="custom-select-dropdown">
+            <button type="button" class="custom-select-option" data-value="random">Acak</button>
+            <button type="button" class="custom-select-option active" data-value="az">A-Z</button>
+            <button type="button" class="custom-select-option" data-value="za">Z-A</button>
+            <button type="button" class="custom-select-option" data-value="short">Terpendek</button>
+            <button type="button" class="custom-select-option" data-value="long">Terpanjang</button>
+          </div>
+        </div>
+        <div class="view-toggle">
+          <button data-view="list" class="active" title="List">☰</button>
+          <button data-view="grid" title="Grid">▦</button>
+        </div>
+        <button class="add-word-btn" id="addWordBtn">➕ Tambah kata</button>
+      </div>
+    </div>
+
+    <div class="search-section results list" id="results"></div>
+  </div>
+
+  <div class="modal-overlay" id="blockedModal">
+    <div class="modal">
+      <button class="modal-close" id="closeBlockedModal">✕</button>
+      <h3>🚫 Kata Diblokir</h3>
+      <p class="hint">Kata yang diblokir disembunyikan dari hasil pencarian.</p>
+      <button class="push-reset" id="unblockAllLocalBtn" style="width:100%; margin-bottom:10px;">🗑️ Batalkan Semua Blokiran</button>
+      <div class="blocked-list" id="blockedList"></div>
+      <p class="data-disclosure">Kata yang kamu blokir/tambahkan membantu kami menyempurnakan kamus.</p>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="dbModal">
+    <div class="modal">
+      <button class="modal-close" id="closeDbModal">✕</button>
+      <h3>⚙️ Kelola Kamus</h3>
+      <p class="hint">Import kamus lengkap atau progress push index kamu di sini.</p>
+      <div class="blocked-list">
+        <details class="settings-section">
+          <summary class="settings-section-label">Statistik <span class="settings-section-chevron">▾</span></summary>
+          <div class="settings-section-body">
+            <div class="blocked-item"><span>Total kata</span><b class="mono" id="dbTotal">0</b></div>
+            <div class="blocked-item"><span>Favorit</span><b class="mono" id="dbFav">0</b></div>
+            <div class="blocked-item"><span>Diblokir</span><b class="mono" id="dbBlocked">0</b></div>
+            <div class="blocked-item"><span>Sudah dipush</span><b class="mono" id="dbPushed">0</b></div>
+          </div>
+        </details>
+
+        <details class="settings-section" open>
+          <summary class="settings-section-label">Tampilan <span class="settings-section-chevron">▾</span></summary>
+          <div class="settings-section-body">
+            <div class="blocked-item" style="flex-direction:column; align-items:stretch; gap:8px; padding:12px 2px;">
+              <span>Warna aksen</span>
+              <div class="custom-select" id="accentColorSelect" style="width:100%;">
+                <button type="button" class="custom-select-trigger">
+                  <span class="custom-select-trigger-label">Biru (default)</span>
+                  <span class="custom-select-chevron">▾</span>
+                </button>
+                <div class="custom-select-dropdown">
+                  <button type="button" class="custom-select-option active" data-value="biru">Biru (default)</button>
+                  <button type="button" class="custom-select-option" data-value="pink">Pink</button>
+                  <button type="button" class="custom-select-option" data-value="oren">Oren</button>
+                  <button type="button" class="custom-select-option" data-value="hijau">Hijau</button>
+                  <button type="button" class="custom-select-option" data-value="kuning">Kuning</button>
+                  <button type="button" class="custom-select-option" data-value="ungu">Ungu</button>
+                  <button type="button" class="custom-select-option" data-value="putih">Putih</button>
+                  <button type="button" class="custom-select-option" data-value="abu">Abu-abu</button>
+                </div>
+              </div>
+            </div>
+            <div class="blocked-item" style="flex-direction:column; align-items:stretch; gap:8px; padding:12px 2px;">
+              <span>Warna background</span>
+              <div class="custom-select" id="bgModeSelect" style="width:100%;">
+                <button type="button" class="custom-select-trigger">
+                  <span class="custom-select-trigger-label">Default</span>
+                  <span class="custom-select-chevron">▾</span>
+                </button>
+                <div class="custom-select-dropdown">
+                  <button type="button" class="custom-select-option active" data-value="default">Default</button>
+                  <button type="button" class="custom-select-option" data-value="warna">Ikuti warna pilihan</button>
+                </div>
+              </div>
+            </div>
+            <div class="blocked-item" style="flex-direction:column; align-items:stretch; gap:8px; padding:12px 2px;">
+              <span>Font kata</span>
+              <div class="font-picker" id="fontPicker">
+                <button type="button" class="font-picker-trigger" id="fontPickerTrigger">
+                  <span class="font-picker-trigger-name" id="fontPickerTriggerName">Source Serif 4</span>
+                  <span class="font-picker-trigger-type" id="fontPickerTriggerType">Serif</span>
+                  <span class="font-picker-chevron">▾</span>
+                </button>
+                <div class="font-picker-dropdown" id="fontPickerDropdown"></div>
+              </div>
+              <div class="font-picker-preview" id="fontPickerPreview"><b>Contoh tampilan</b>kucing lompat pagar</div>
+            </div>
+          </div>
+        </details>
+
+        <details class="settings-section">
+          <summary class="settings-section-label">Preferensi <span class="settings-section-chevron">▾</span></summary>
+          <div class="settings-section-body">
+            <div class="blocked-item">
+              <span>Tampilkan tombol panduan mengambang</span>
+              <label class="switch-toggle">
+                <input type="checkbox" id="guideToggleCheckbox" checked>
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+            <div class="blocked-item">
+              <span>Tampilkan tombol push di mode pencarian</span>
+              <label class="switch-toggle">
+                <input type="checkbox" id="searchPushToggleCheckbox">
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+            <div class="blocked-item" style="flex-direction:column; align-items:stretch; gap:8px; padding:12px 2px;">
+              <span>Ukuran tombol Push Index</span>
+              <input type="range" id="tileSizeSlider" min="24" max="72" value="48" style="width:100%;">
+            </div>
+            <div class="blocked-item" style="flex-direction:column; align-items:stretch; gap:8px; padding:12px 2px;">
+              <span>Ukuran teks kata</span>
+              <input type="range" id="wordSizeSlider" min="12" max="28" value="20" style="width:100%;">
+            </div>
+          </div>
+        </details>
+
+        <details class="settings-section">
+          <summary class="settings-section-label">Data <span class="settings-section-chevron">▾</span></summary>
+          <div class="settings-section-body">
+            <div class="blocked-item" style="flex-direction:column; align-items:stretch; gap:8px; padding:12px 2px;">
+              <span>Kamus (kata) <span class="info-icon" id="importInfoIcon" title="Info">ⓘ</span></span>
+              <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                <button id="importKamusBtn" class="io-btn">📥 Import</button>
+                <button id="exportKamusJsonBtn" class="io-btn primary"> Export .json</button>
+                <button id="exportKamusTxtBtn" class="io-btn"> Export .txt</button>
+              </div>
+            </div>
+            <div class="blocked-item" style="flex-direction:column; align-items:stretch; gap:8px; padding:12px 2px;">
+              <span>Progress Push</span>
+              <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                <button id="importProgressBtn" class="io-btn">📥 Import</button>
+                <button id="exportProgressJsonBtn" class="io-btn primary"> Export .json</button>
+                <button id="exportProgressTxtBtn" class="io-btn"> Export .txt</button>
+              </div>
+            </div>
+            <div class="blocked-item" style="flex-direction:column; align-items:stretch; gap:8px; padding:12px 2px;">
+              <span>Trap (Preset Kompe)</span>
+              <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                <button id="importTrapBtn" class="io-btn">📥 Import</button>
+                <button id="exportTrapJsonBtn" class="io-btn primary"> Export .json</button>
+              </div>
+            </div>
+            <div class="blocked-item" style="flex-direction:column; align-items:stretch; gap:8px; padding:12px 2px;">
+              <span>Reset Index</span>
+              <button class="push-reset" id="pushResetAll" style="width:100%;">Reset Index</button>
+            </div>
+          </div>
+        </details>
+
+        <details class="settings-section">
+          <summary class="settings-section-label">Tentang <span class="settings-section-chevron">▾</span></summary>
+          <div class="settings-section-body">
+            <div class="blocked-item">
+              <span>Versi Samkat</span>
+              <span class="update-log-version-tag" id="currentVersionTag"></span>
+            </div>
+            <div class="blocked-item" style="padding-top:10px;">
+              <button class="io-btn kompe-modal-submit" id="updateLogBtn" style="width:100%;">Lihat Update Log</button>
+            </div>
+          </div>
+        </details>
+      </div>
+      <input type="file" id="importKamusFile" accept=".txt,.json" style="display:none;">
+      <input type="file" id="importProgressFile" accept=".txt,.json" style="display:none;">
+      <input type="file" id="importTrapFile" accept=".json" style="display:none;">
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="importInfoModal">
+    <div class="modal">
+      <button class="modal-close" id="closeImportInfoModal">✕</button>
+      <h3>Import / Export Kamus &amp; Progress</h3>
+      <h5>Kamus</h5>
+      <p class="hint">File .txt (1 kata per baris) atau .json ({"indexedDB":{"words":[...]}} atau array kata). Kata baru
+        digabung ke kamus yang ada.</p>
+      <h5>Progress Push</h5>
+      <p class="hint">File .txt (1 kata per baris) atau .json ({"pushedWords":[...]}). Dipakai buat mulihin atau
+        nyambung progress push index kamu.</p>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="addWordModal">
+    <div class="modal">
+      <button class="modal-close" id="closeAddWordModal">✕</button>
+      <h3>➕ Tambah Kata</h3>
+      <p class="hint">Kata baru bakal langsung masuk ke kamus dan kesimpen permanen.</p>
+      <div class="input-wrap" style="margin-top:8px;">
+        <input type="text" id="addWordInput" autocomplete="off" placeholder="ketik kata baru, tekan Enter buat nambahin..." maxlength="86">
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="kompeGroupModal">
+    <div class="modal">
+      <button class="modal-close" id="closeKompeGroupModal">✕</button>
+      <h3>➕ Buat Grup Trap</h3>
+      <p class="hint">Pilih mode dulu, baru ketik kata/segmen trap-nya.</p>
+
+      <div class="kompe-modal-section">
+        <div class="kompe-modal-label">Mode</div>
+        <div class="kompe-modal-mode-row">
+          <button class="kompe-modal-mode-btn" data-modal-mode="normal">
+            Normal
+            <span class="kompe-modal-mode-sub">maks. 3 huruf</span>
+          </button>
+          <button class="kompe-modal-mode-btn" data-modal-mode="brutal">
+            Brutal
+            <span class="kompe-modal-mode-sub">maks. 5 huruf</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="kompe-modal-section">
+        <div class="kompe-modal-label">Segmen Trap</div>
+        <div class="input-wrap kompe-modal-input-wrap">
+          <input type="text" id="kompeModalInput" autocomplete="off" placeholder="pilih mode dulu..." disabled>
+          <span class="kompe-modal-charcount" id="kompeModalCharCount"></span>
+        </div>
+      </div>
+
+      <div class="kompe-modal-stats">
+        <span>trigger : <b id="kompeModalTriggerCount">0</b></span>
+        <span>counter : <b id="kompeModalCounterCount">0</b></span>
+      </div>
+      <div class="kompe-modal-preview">
+        <div class="kompe-modal-col" id="kompeModalTriggerPreview"></div>
+        <div class="kompe-modal-col" id="kompeModalCounterPreview"></div>
+      </div>
+
+      <div class="kompe-modal-section">
+        <div class="kompe-modal-label">Weight (prioritas kata, 0-10000)</div>
+        <div class="input-wrap">
+          <input type="number" id="kompeModalWeight" min="0" max="10000" step="1" value="0" placeholder="0-10000">
+        </div>
+      </div>
+
+      <button class="io-btn primary kompe-modal-submit" id="kompeModalSubmitBtn">Submit Grup</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="kelolaTrapModal">
+    <div class="modal">
+      <button class="modal-close" id="closeKelolaTrapModal">✕</button>
+      <h3>🪤 Kelola Trap Word</h3>
+      <p class="hint">Trap aktif kesimpen &amp; sinkron ke akun kamu. Tambah dari hasil eksplorasi, atau manual di sini. Detail trigger/counter tiap grup bisa dilihat lewat tombol panah di sidebar "Grup Trap" pada halaman Kompe.</p>
+
+      <div class="kelola-trap-tabs">
+        <button class="kelola-trap-tab active" data-kelola-tab="normal">Mode Normal</button>
+        <button class="kelola-trap-tab" data-kelola-tab="brutal">Mode Brutal</button>
+      </div>
+
+      <div class="kompe-trap-add-row">
+        <div class="input-wrap">
+          <input type="text" id="kelolaTrapInput" autocomplete="off" placeholder="ketik segmen trap..." maxlength="3">
+        </div>
+        <button class="io-btn primary" id="kelolaTrapAddBtn">Tambah</button>
+      </div>
+      <p class="hint" id="kelolaTrapStats" style="margin:8px 0 0; min-height:16px;"></p>
+
+      <div class="kelola-trap-list" id="kelolaTrapList" style="margin-top:10px;"></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="kompePresetModal">
+    <div class="modal">
+      <button class="modal-close" id="closeKompePresetModal">✕</button>
+      <div class="kompe-preset-modal-head">
+        <h3 id="kompePresetModalTitle">Preset</h3>
+        <div class="kompe-preset-modal-head-actions">
+          <button class="kompe-preset-edit-toggle" id="kompeBuatPresetBtn">+ Buat Preset</button>
+          <button class="kompe-preset-edit-toggle" id="kompePresetEditToggle">edit preset</button>
+        </div>
+      </div>
+      <p class="hint" style="margin-top:8px;">Maks 10 preset per mode. Preset baru selalu mulai kosong.</p>
+      <div class="kompe-preset-list" id="kompePresetList"></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="importTrapModal">
+    <div class="modal">
+      <button class="modal-close" id="closeImportTrapModal">✕</button>
+      <h3>Import Trap</h3>
+      <p class="hint" id="importTrapSummaryText" style="margin-top:8px;"></p>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:14px;">
+        <button class="io-btn primary" id="importTrapMergeBtn">Merge</button>
+        <button class="io-btn danger" id="importTrapRewriteBtn">Rewrite</button>
+        <button class="io-btn" id="importTrapCancelBtn">Batal</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="caraBermainModal">
+    <div class="modal">
+      <button class="modal-close" id="closeCaraBermainModal">✕</button>
+
+      <div id="guideContentPencarian" class="guide-content">
+        <h3>📖 Panduan Pencarian</h3>
+        <p class="hint" style="margin-bottom:10px;">Berfungsi untuk mencari kata yang berlaku di map Roblox Sambung Kata.</p>
+        <ul style="margin:0; padding-left:18px; font-size:13px; color:var(--muted); display:flex; flex-direction:column; gap:8px;">
+          <li><b style="color:var(--text);">Awalan</b>: mencari kata berdasarkan huruf awal yang kamu masukkan. Contoh: input <b style="color:var(--accent);">an</b> → hasil: <b style="color:var(--accent);">an</b>akonda, <b style="color:var(--accent);">an</b>tena, <b style="color:var(--accent);">an</b>ggur</li>
+          <li><b style="color:var(--text);">Akhiran</b>: mencari kata berdasarkan huruf akhir yang kamu masukkan. Contoh: input <b style="color:var(--accent);">an</b> → hasil: makan<b style="color:var(--accent);">an</b>, jalan<b style="color:var(--accent);">an</b>, hutan<b style="color:var(--accent);">an</b></li>
+          <li><b style="color:var(--text);">Awalan + Akhiran</b>: mencari kata yang sekaligus diawali dan diakhiri huruf tertentu. Contoh: awalan <b style="color:var(--accent);">k</b>, akhiran <b style="color:var(--accent);">k</b> → hasil: <b style="color:var(--accent);">k</b>oto<b style="color:var(--accent);">k</b>, <b style="color:var(--accent);">k</b>otak-kata<b style="color:var(--accent);">k</b></li>
+          <li><b style="color:var(--text);">Grid</b>: tampilan hasil pencarian dalam bentuk kotak-kotak, cocok kalau kamu mau lihat banyak kata sekaligus dalam satu layar</li>
+          <li><b style="color:var(--text);">Favorit</b>: menandai kata yang sering kamu pakai biar gampang ditemukan lagi lewat filter ⭐</li>
+          <li><b style="color:var(--text);">Blokir</b>: menyembunyikan kata yang menurut kamu tidak valid atau tidak ingin muncul lagi di hasil pencarian</li>
+          <li><b style="color:var(--text);">Tambah kata</b>: memasukkan kata baru ke kamus kalau ada kata valid yang belum tersedia</li>
+        </ul>
+      </div>
+
+      <div id="guideContentPush" class="guide-content" style="display:none;">
+        <h3>📖 Panduan Push Index</h3>
+        <p class="hint" style="margin-bottom:10px;">Menu ini membantu kamu mengejar title pencapaian index di map Roblox Sambung Kata.</p>
+        <ul style="margin:0 0 14px; padding-left:18px; font-size:13px; color:var(--muted); display:flex; flex-direction:column; gap:8px;">
+          <li><b style="color:var(--text);">Tombol abjad Awalan (A–Z)</b>: menentukan huruf awal kata yang mau ditampilkan</li>
+          <li><b style="color:var(--text);">Tombol abjad Akhiran (A–Z)</b>: menentukan huruf akhir kata yang mau ditampilkan</li>
+          <li><b style="color:var(--text);">Undo</b>: mengembalikan kata yang tidak sengaja ter-push</li>
+          <li><b style="color:var(--text);">Grid</b>: sama seperti di menu Pencarian, tampilan kata dalam bentuk kotak-kotak</li>
+        </ul>
+        <p class="hint" style="font-weight:600; color:var(--text); margin-bottom:6px;">Cara menggunakan:</p>
+        <ol style="margin:0; padding-left:18px; font-size:13px; color:var(--muted); display:flex; flex-direction:column; gap:6px;">
+          <li>Masukkan huruf awalan dan/atau akhiran kata yang mau kamu kerjakan</li>
+          <li>Kalau kata itu sudah kamu input ke dalam game, klik kata tersebut di daftar — kata akan ditandai sebagai "terpush" dan progress index kamu bakal bertambah</li>
+          <li>Kalau kata ternyata tidak valid atau tidak bisa diinput di map Samkat, tekan tombol ✕ untuk memblokir kata itu biar tidak muncul lagi</li>
+        </ol>
+      </div>
+
+      <div id="guideContentKompe" class="guide-content" style="display:none;">
+        <h3>📖 Panduan Mode Kompe</h3>
+        <p class="hint" style="margin-bottom:10px;">Menu ini cocok buat kamu yang lagi mengejar win, dengan cara memasang trap ke lawan sesuai mode yang dipilih.</p>
+        <ul style="margin:0 0 14px; padding-left:18px; font-size:13px; color:var(--muted); display:flex; flex-direction:column; gap:8px;">
+          <li><b style="color:var(--text);">Trigger</b>: kata yang mengandung trap di bagian akhir kata. Kata ini yang kamu kasih ke lawan biar mereka kejebak harus nyambung dari segmen trap tersebut</li>
+          <li><b style="color:var(--text);">Counter</b>: kata yang mengandung trap di bagian awal kata. Ini kata cadangan buat kamu sendiri, jaga-jaga kalau kamu yang kena kasih kata berakhiran trap</li>
+          <li><b style="color:var(--text);">Weight</b>: bobot prioritas kata. Kata dengan weight terbesar bakal muncul paling atas di daftar (diurutkan dari weight terbesar ke terkecil)</li>
+          <li><b style="color:var(--text);">Buat Grup</b>: menyimpan kumpulan trap. Di pencarian, kata aman (tidak membuka jalan ke trap) diprioritaskan muncul duluan, kata beresiko turun ke bawah dengan badge merah</li>
+          <li><b style="color:var(--text);">Badge merah</b>: nunjukin salah satu kemungkinan spawn kata ini (2-5 huruf terakhir) bisa dipakai lawan buat balas pakai kata trigger. Kalau itu kejadian, giliran solve trap balik ke kamu di ronde berikutnya. Semakin banyak trap yang kesebut di badge, semakin beresiko kata itu ditulis</li>
+          <li><b style="color:var(--text);">🪤 Trap</b>: mode eksplorasi buat nemuin kandidat trap word baru. Atur panjang suffix (2-5 huruf) dan filter trigger/solve, hasilnya muncul otomatis. Kandidat yang cocok bisa langsung ditambah ke "Kelola Trap Word" biar kesimpen &amp; sinkron ke akun kamu</li>
+        </ul>
+        <p class="hint" style="font-weight:600; color:var(--text); margin-bottom:6px;">Cara bermain:</p>
+        <p class="hint" style="font-size:13px; margin:0;">Setiap kata yang sudah kamu pakai bisa diklik untuk disembunyikan dari daftar, biar tidak terinput dua kali. Kalau match sudah selesai, klik tombol Reset untuk memunculkan lagi semua kata yang sempat disembunyikan.</p>
+      </div>
+    </div>
+  </div>
+
+  <button class="guide-float-btn" id="guideFloatBtn">Panduan Pencarian</button>
+
+  <div class="modal-overlay" id="authModal">
+  <div class="modal">
+    <button class="modal-close" id="closeAuthModal">✕</button>
+    <h3>Akun</h3>
+
+    <div id="authLoggedOutView">
+      <div class="kompe-modal-mode-row" style="margin-bottom:14px;">
+        <button class="kompe-modal-mode-btn auth-tab active" data-auth-tab="login">Login</button>
+        <button class="kompe-modal-mode-btn auth-tab" data-auth-tab="register">Daftar</button>
+      </div>
+
+      <div class="auth-warning">
+        ⚠️ <b>Peringatan!</b> Password (PIN) harus diingat dengan baik. Kalau lupa, pemulihan cuma bisa lewat admin (kontak admin di Discord).
+      </div>
+
+      <div class="auth-info">
+        ℹ️ Buat akun berfungsi untuk menyimpan kata terpush, kata terblokir, grup trap, dan favorit. Username yang dimasukkan tidak harus username Roblox.
+      </div>
+
+      <form id="authForm" autocomplete="on">
+      <div class="kompe-modal-section">
+        <div class="kompe-modal-label">Username</div>
+        <div class="input-wrap">
+          <input type="text" id="authUsernameInput" name="username" autocomplete="username" placeholder="username (3-20 karakter)">
+        </div>
+      </div>
+
+      <div class="kompe-modal-section">
+        <div class="kompe-modal-label">Password</div>
+        <div class="input-wrap">
+          <input type="password" id="authPinInput" name="password" autocomplete="current-password" placeholder="min. 8 karakter, ada huruf besar & angka">
+          <span class="pw-toggle-icon" data-toggle-for="authPinInput">Show</span>
+        </div>
+      </div>
+
+      <div class="kompe-modal-section" id="authConfirmPinWrap" style="display:none;">
+        <div class="kompe-modal-label">Ulangi Password</div>
+        <div class="input-wrap">
+          <input type="password" id="authConfirmPinInput" name="new-password-confirm" autocomplete="new-password" placeholder="ulangi password">
+          <span class="pw-toggle-icon" data-toggle-for="authConfirmPinInput">Show</span>
+        </div>
+      </div>
+
+      <div id="authErrorMsg" class="auth-error" style="display:none;"></div>
+
+      <button class="io-btn primary kompe-modal-submit" id="authSubmitBtn" type="submit">Login</button>
+      </form>
+      <button type="button" class="auth-forgot-pin-link" id="forgotPinLink">Lupa Password?</button>
+    </div>
+
+    <div id="authLoggedInView" style="display:none;">
+      <p class="hint">Login sebagai <b id="authCurrentUsername" style="color:var(--text);"></b></p>
+      <button class="io-btn primary kompe-modal-submit" id="authLogoutBtn" style="background:var(--red); border-color:var(--red); color:#fff;">Logout</button>
+
+      <button class="io-btn kompe-modal-submit" id="backupHistoryBtn">Riwayat Backup</button>
+
+      <div class="admin-panel" id="adminPanel" style="display:none;">
+        <div class="admin-panel-title">Panel Admin</div>
+        <button class="io-btn kompe-modal-submit" id="reportedWordsBtn">Reported Words</button>
+        <button class="io-btn kompe-modal-submit" id="pinResetBtn" style="display:none;">Reset PIN User</button>
+        <button class="io-btn kompe-modal-submit" id="backfillReportedBtn">Tarik Data</button>
+        <button class="io-btn kompe-modal-submit admin-danger" id="unblockAllBtn">Batal Block Semua</button>
+        <button class="io-btn kompe-modal-submit admin-danger" id="unblockAllCustomBtn">Batalkan Semua Custom Words</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="backupModal">
+  <div class="modal">
+    <button class="modal-close" id="closeBackupModal">✕</button>
+    <h3>Riwayat Backup</h3>
+    <p class="hint">Snapshot data lu (kata terpush, grup trap, dll) dari waktu ke waktu. Pilih salah satu buat dibalikin kalau ada data yang ke-ilangan.</p>
+    <div class="backup-list" id="backupListEl"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="updateLogModal">
+  <div class="modal">
+    <button class="modal-close" id="closeUpdateLogModal">✕</button>
+    <h3>📋 Update Log</h3>
+    <p class="hint">Riwayat rilis & perubahan Samkat, terbaru di atas.</p>
+    <div class="update-log-list" id="updateLogList"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="reportedWordsModal">
+  <div class="modal">
+    <button class="modal-close" id="closeReportedWordsModal">✕</button>
+    <h3>Reported Words</h3>
+    <p class="hint">Kata blocked/custom yang terkumpul dari semua user (unik, ga dobel).</p>
+
+    <div class="reported-section">
+      <div class="reported-section-title">Kata Diblokir</div>
+      <div class="blocked-list" id="reportedBlockedList"></div>
+    </div>
+
+    <div class="reported-section">
+      <div class="reported-section-title">Kata Kustom</div>
+      <div class="blocked-list" id="reportedCustomList"></div>
+    </div>
+
+    <details class="settings-section reported-debug">
+      <summary class="settings-section-label">Debug <span class="settings-section-chevron">▾</span></summary>
+      <div class="settings-section-body">
+        <pre id="reportedWordsJson"></pre>
+      </div>
+    </details>
+
+    <button class="io-btn primary kompe-modal-submit" id="downloadReportedWordsBtn" style="margin-top:12px;">⬇ Download .json</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="forgotPinModal">
+  <div class="modal">
+    <button class="modal-close" id="closeForgotPinModal">✕</button>
+    <h3>Lupa Password?</h3>
+    <p class="hint">Hubungi admin di Discord (gxjpeg, lalalavienroselalala, lilylovely165) untuk mendapatkan kode reset. Kode cuma berlaku 30 menit &amp; sekali pakai.</p>
+
+    <div class="kompe-modal-section">
+      <div class="kompe-modal-label">Username</div>
+      <div class="input-wrap">
+        <input type="text" id="forgotPinUsernameInput" autocomplete="username" placeholder="username kamu">
+      </div>
+    </div>
+
+    <div class="kompe-modal-section">
+      <div class="kompe-modal-label">Kode dari Admin</div>
+      <div class="input-wrap">
+        <input type="text" id="forgotPinCodeInput" autocomplete="one-time-code" placeholder="XKLA-92MF-QPLE-8ZRT">
+      </div>
+    </div>
+
+    <div class="kompe-modal-section">
+      <div class="kompe-modal-label">Password Baru</div>
+      <div class="input-wrap">
+        <input type="password" id="forgotPinNewInput" autocomplete="new-password" placeholder="min. 8 karakter, ada huruf besar & angka">
+        <span class="pw-toggle-icon" data-toggle-for="forgotPinNewInput">Show</span>
+      </div>
+    </div>
+
+    <div class="kompe-modal-section">
+      <div class="kompe-modal-label">Ulangi Password Baru</div>
+      <div class="input-wrap">
+        <input type="password" id="forgotPinConfirmInput" autocomplete="new-password" placeholder="ulangi password baru">
+        <span class="pw-toggle-icon" data-toggle-for="forgotPinConfirmInput">Show</span>
+      </div>
+    </div>
+
+    <div id="forgotPinErrorMsg" class="auth-error" style="display:none;"></div>
+
+    <button class="io-btn primary kompe-modal-submit" id="forgotPinSubmitBtn" type="button">Ganti Password</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="pinResetModal">
+  <div class="modal">
+    <button class="modal-close" id="closePinResetModal">✕</button>
+    <h3>Reset PIN User</h3>
+    <p class="hint">Pilih username, generate kode, terus kirim manual ke usernya via Discord. Kode berlaku 30 menit &amp; sekali pakai.</p>
+
+    <div class="input-wrap" style="margin-bottom:8px;">
+      <input type="text" id="pinResetSearchInput" autocomplete="off" placeholder="cari username...">
+    </div>
+    <div class="blocked-list" id="pinResetUserList" style="max-height:220px; overflow-y:auto;"></div>
+
+    <div id="pinResetSelectedWrap" style="display:none; margin-top:14px;">
+      <p class="hint">Target: <b class="mono" id="pinResetSelectedUsername" style="color:var(--text);"></b></p>
+      <button class="io-btn primary kompe-modal-submit" id="pinResetGenerateBtn" type="button">Generate Kode Reset</button>
+    </div>
+
+    <div id="pinResetCodeWrap" style="display:none; margin-top:14px;">
+      <p class="hint">Kode ini cuma ditampilin sekali, salin & kirim manual ke usernya sekarang:</p>
+      <div class="input-wrap">
+        <input type="text" id="pinResetCodeOutput" class="mono" readonly>
+        <span class="pin-reset-copy-btn" id="pinResetCopyBtn">Salin</span>
+      </div>
+      <p class="hint" id="pinResetExpiryHint"></p>
+    </div>
+  </div>
+</div>
+
+  <div class="toast" id="toast"></div>
+  </main>
+
+  <script src="js/script.js?v=202609071"></script>
+</body>
+
+</html>
