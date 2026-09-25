@@ -101,7 +101,7 @@ let customWordsSet = new Set(customWords);
 let baseDictSet = new Set();
 let query = { awalan: "", akhiran:   "", mengandung: "" };
 
-const DICTIONARY_VERSION = '1.11.1';
+const DICTIONARY_VERSION = '1.11.2';
 
 // Riwayat update yang ditampilin ke user lewat modal "Update Log". Entry paling
 // atas = paling baru. Tiap entry WAJIB diisi manual pas rilis (gak ada auto-diff).
@@ -558,6 +558,34 @@ function ensureDefaultKompePresets() {
   });
 }
 
+// Klik pertama kali pada sebuah grup -> masuk ke paling bawah daftar pin
+// (jadi prioritas paling akhir yang di-set, tapi tetap di atas semua grup
+// yang belum pernah di-klik). Klik lagi pada grup yang udah ke-pin -> lepas
+// dari daftar pin, balik ke sortir berdasarkan weight.
+function toggleKompeGroupPriority(id) {
+  const idx = kompePinnedGroupIds.indexOf(id);
+  if (idx !== -1) {
+    kompePinnedGroupIds.splice(idx, 1);
+  } else {
+    kompePinnedGroupIds.push(id);
+  }
+}
+
+// Dipake bareng renderKompeGroupList & computeKompeTriggerRows biar dua-duanya
+// konsisten: grup yang ke-pin selalu di atas (urutan sesuai kapan di-klik),
+// sisanya di bawah diurut weight terbesar -> terkecil.
+function sortKompeGroupsByPriority(groups, getId, getWeight, getSegment) {
+  const pinnedRank = new Map(kompePinnedGroupIds.map((id, i) => [id, i]));
+  return [...groups].sort((a, b) => {
+    const aPin = pinnedRank.has(getId(a));
+    const bPin = pinnedRank.has(getId(b));
+    if (aPin && bPin) return pinnedRank.get(getId(a)) - pinnedRank.get(getId(b));
+    if (aPin) return -1;
+    if (bPin) return 1;
+    return getWeight(b) - getWeight(a) || getSegment(a).localeCompare(getSegment(b));
+  });
+}
+
 function getActiveKompePreset(mode) {
   return kompePresets[mode].find(p => p.id === kompeActivePresetId[mode]) || kompePresets[mode][0];
 }
@@ -582,10 +610,14 @@ async function saveKompeGroups() {
   syncKompeGroupsToActivePresets();
   await storageSet('samkat_kompe_presets', JSON.stringify(stripKompePresetsForStorage(kompePresets)));
   await storageSet('samkat_kompe_active_preset', JSON.stringify(kompeActivePresetId));
-  // Sengaja langsung sync (bukan debouncedSync) -- perubahan grup itu aksi
-  // sekali klik, bukan event beruntun. Kalau di-debounce, refresh cepet abis
-  // ubah grup bisa ke-pull data lama dari server & nimpa balik perubahan lokal.
-  await syncPushedWordsToServer();
+  // Data lokal (localStorage) udah aman ke-simpen di atas -- itu yang dipake
+  // pas app dibuka lagi. Sync ke server sengaja GAK di-await di sini biar UI
+  // gak nunggu round-trip network (ini yang bikin nambah grup kerasa lag).
+  // Tetep langsung dipanggil (bukan debouncedSync) -- perubahan grup itu aksi
+  // sekali klik, bukan event beruntun, dan kalau di-debounce, refresh cepet
+  // abis ubah grup bisa ke-pull data lama dari server & nimpa balik perubahan
+  // lokal.
+  syncPushedWordsToServer();
 }
 
 // Persist urutan/nama preset doang (gak nyentuh isi grup) -- dipake abis
@@ -593,9 +625,10 @@ async function saveKompeGroups() {
 async function saveKompePresetsMeta() {
   await storageSet('samkat_kompe_presets', JSON.stringify(stripKompePresetsForStorage(kompePresets)));
   await storageSet('samkat_kompe_active_preset', JSON.stringify(kompeActivePresetId));
-  // Sama kayak saveKompeGroups(): langsung sync, jangan di-debounce, biar gak
-  // ke-pull-timpa data lama pas user refresh cepet abis bikin/hapus preset.
-  await syncPushedWordsToServer();
+  // Sama kayak saveKompeGroups(): sync gak di-await biar UI gak ketunda nunggu
+  // network. Tetep langsung dipanggil (bukan debouncedSync) biar gak ke-pull-
+  // timpa data lama pas user refresh cepet abis bikin/hapus preset.
+  syncPushedWordsToServer();
 }
 
 async function loadKompeGroups() {
@@ -1838,6 +1871,11 @@ let kompePresetEditMode = false;
 let kompeGroups = [];
 let kompeActiveGroupId = null;
 let kompeUsedWords = new Set(); // kata yang udah di-klik/di-hide, dipake bareng list badge & Kelola Trap Word
+// Urutan grup yang diprioritasin manual lewat klik card -- index 0 = prioritas
+// paling atas (klik pertama), makin gede index makin bawah. Grup yang gak ada
+// di sini disortir pake weight seperti biasa, taruh di bawah semua yang dipin.
+// Sengaja gak disimpen ke storage/server -- ini state sementara per sesi main.
+let kompePinnedGroupIds = [];
 let kompeMode = 'normal';
 let kompeOpenMenuGroupId = null;
 let kompeExpandedGroupId = null; // card grup trap yg lagi expand (dipindah dari modal Kelola Trap Word)
@@ -1978,7 +2016,7 @@ function renderKompeGroupList() {
   }
   if (!inMode.some(g => g.id === kompeActiveGroupId)) kompeActiveGroupId = null;
 
-  const sorted = [...inMode].sort((a, b) => b.weight - a.weight);
+  const sorted = sortKompeGroupsByPriority(inMode, g => g.id, g => g.weight, g => g.segment);
   list.innerHTML = sorted.map(g => {
     const expanded = kompeExpandedGroupId === g.id;
     const triggerWords = g.triggers.filter(w => !kompeUsedWords.has(w));
@@ -2081,6 +2119,8 @@ document.getElementById('kompeGroupList').addEventListener('click', async (e) =>
     kompeGroups = kompeGroups.filter(g => g.id !== id);
     if (kompeActiveGroupId === id) kompeActiveGroupId = null;
     if (kompeExpandedGroupId === id) kompeExpandedGroupId = null;
+    const pinIdx = kompePinnedGroupIds.indexOf(id);
+    if (pinIdx !== -1) kompePinnedGroupIds.splice(pinIdx, 1);
     await saveKompeGroups();
     kompeOpenMenuGroupId = null;
     renderKompe();
@@ -2090,6 +2130,7 @@ document.getElementById('kompeGroupList').addEventListener('click', async (e) =>
   const selectBtn = e.target.closest('.kompe-group-select');
   if (selectBtn) {
     kompeActiveGroupId = selectBtn.dataset.kompeGroup;
+    toggleKompeGroupPriority(selectBtn.dataset.kompeGroup);
     clearKompeSearch();
     renderKompe();
   }
@@ -2394,10 +2435,9 @@ function computeKompeTriggerRows(query) {
     const candidates = g.triggers.filter(w => w.startsWith(query) && !kompeUsedWords.has(w) && !blockedSet.has(w));
     if (!candidates.length) return;
     candidates.sort((a, b) => a.length - b.length || a.localeCompare(b));
-    rows.push({ segment: g.segment, weight: g.weight, word: candidates[0], remaining: candidates.length - 1 });
+    rows.push({ id: g.id, segment: g.segment, weight: g.weight, word: candidates[0], remaining: candidates.length - 1 });
   });
-  rows.sort((a, b) => b.weight - a.weight || a.segment.localeCompare(b.segment));
-  return rows;
+  return sortKompeGroupsByPriority(rows, r => r.id, r => r.weight, r => r.segment);
 }
 
 // Bangun HTML kata dengan highlight per-karakter: bagian yang cocok sama
@@ -2729,12 +2769,13 @@ document.getElementById('kompeModalSubmitBtn').addEventListener('click', async (
 });
 
 document.getElementById('kompeResetBtn').addEventListener('click', () => {
-  if (!kompeUsedWords.size) return;
-  const ok = window.confirm('Reset kata yang udah di-klik/di-hide di list? Grup trap-nya sendiri ga bakal kehapus.');
+  if (!kompeUsedWords.size && !kompePinnedGroupIds.length) return;
+  const ok = window.confirm('Reset kata yang udah di-klik/di-hide dan prioritas grup? Grup trap-nya sendiri ga bakal kehapus.');
   if (!ok) return;
   kompeUsedWords.clear();
+  kompePinnedGroupIds = [];
   renderKompe();
-  showToast('🔄 list direset, grup tetap aman');
+  showToast('List dan prioritas direset, grup tetap aman');
 });
 
 document.querySelectorAll('.kompe-mode').forEach(btn => {
