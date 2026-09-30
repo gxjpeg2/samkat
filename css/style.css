@@ -29,7 +29,6 @@
   --hit: #C77800;
 }
 
-/* ===== WARNA AKSEN (dark theme, default) ===== */
 [data-accent="biru"] { --accent: #22D3EE; --accent-ink: #04232B; }
 [data-accent="pink"] { --accent: #F472B6; --accent-ink: #2B0A17; }
 [data-accent="oren"] { --accent: #FB923C; --accent-ink: #2B1503; }
@@ -39,7 +38,6 @@
 [data-accent="putih"] { --accent: #FFFFFF; --accent-ink: #15171A; }
 [data-accent="abu"] { --accent: #D1D5DB; --accent-ink: #1C1F23; }
 
-/* ===== WARNA AKSEN (light theme) ===== */
 [data-theme="light"][data-accent="biru"] { --accent: #0E8FA8; --accent-ink: #FFFFFF; }
 [data-theme="light"][data-accent="pink"] { --accent: #DB2777; --accent-ink: #FFFFFF; }
 [data-theme="light"][data-accent="oren"] { --accent: #C2410C; --accent-ink: #FFFFFF; }
@@ -49,7 +47,6 @@
 [data-theme="light"][data-accent="putih"] { --accent: #9CA3AF; --accent-ink: #1C1C1C; }
 [data-theme="light"][data-accent="abu"] { --accent: #4B5563; --accent-ink: #FFFFFF; }
 
-/* ===== BACKGROUND IKUT WARNA (dark theme) ===== */
 [data-bgmode="warna"][data-accent="biru"] { --bg: #131A1E; --panel: #171F23; --panel-alt: #1C2529; }
 [data-bgmode="warna"][data-accent="pink"] { --bg: #1F1417; --panel: #241619; --panel-alt: #2A181C; }
 [data-bgmode="warna"][data-accent="oren"] { --bg: #1E1712; --panel: #231A14; --panel-alt: #291E17; }
@@ -57,14 +54,12 @@
 [data-bgmode="warna"][data-accent="kuning"] { --bg: #1D1B10; --panel: #222014; --panel-alt: #282618; }
 [data-bgmode="warna"][data-accent="ungu"] { --bg: #1A1620; --panel: #1F1A26; --panel-alt: #251F2D; }
 
-/* ===== BACKGROUND IKUT WARNA (light theme, versi pastel) ===== */
 [data-theme="light"][data-bgmode="warna"][data-accent="biru"] { --bg: #F0F9FB; --panel: #FFFFFF; --panel-alt: #E0F2F5; }
 [data-theme="light"][data-bgmode="warna"][data-accent="pink"] { --bg: #FDF2F6; --panel: #FFFFFF; --panel-alt: #FCE7F0; }
 [data-theme="light"][data-bgmode="warna"][data-accent="oren"] { --bg: #FFF7ED; --panel: #FFFFFF; --panel-alt: #FFEDD5; }
 [data-theme="light"][data-bgmode="warna"][data-accent="hijau"] { --bg: #F0FDF4; --panel: #FFFFFF; --panel-alt: #DCFCE7; }
 [data-theme="light"][data-bgmode="warna"][data-accent="kuning"] { --bg: #FEFCE8; --panel: #FFFFFF; --panel-alt: #FEF9C3; }
 [data-theme="light"][data-bgmode="warna"][data-accent="ungu"] { --bg: #FAF5FF; --panel: #FFFFFF; --panel-alt: #F3E8FF; }
-/* abu & putih: background netral, ga usah ditinting */
 
 * {
   box-sizing: border-box;
@@ -109,9 +104,6 @@ body {
   transition: background .2s ease, color .2s ease;
   --font-word: 'Source Serif 4', serif;
 }
-
-/* --font-word sekarang di-set langsung lewat inline style JS (lihat applyAppearance
-   di script.js), jadi bisa dinamis buat semua opsi font + font custom import. */
 
 .custom-select {
   position: relative;
@@ -215,9 +207,7 @@ body {
   background: transparent;
   border: 1px solid var(--border);
   border-radius: var(--radius, 8px);
-  /* penting: .blocked-item button punya color:var(--teal) yang lebih spesifik
-     dari sekadar inherit, jadi dipaksa eksplisit di sini + di -name/-type di
-     bawah biar gak ketimpa warna teal itu */
+  
   color: var(--text);
   font-family: 'Inter', sans-serif;
   font-size: 12px;
@@ -1980,7 +1970,6 @@ body {
   font-size: var(--word-text-size);
 }
 
-
 .push-word.pushed .push-word-name {
   text-decoration: line-through;
   color: var(--muted);
@@ -2225,6 +2214,28 @@ body {
   color: var(--accent);
 }
 
+.kompe-group-select.pinned {
+  background: var(--panel-alt);
+  color: var(--accent);
+  padding-left: 32px;
+}
+
+.kompe-group-priority-badge {
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--panel);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: center;
+}
+
 .kompe-group-expand-btn {
   position: absolute;
   top: 6px;
@@ -2366,7 +2377,6 @@ body {
   border-color: var(--accent);
 }
 
-/* ---- Spinner loading buat tombol (dipake pas login/daftar) ---- */
 .btn-spinner {
   display: inline-block;
   width: 13px;
@@ -2420,7 +2430,6 @@ body {
   border-top: 5px solid currentColor;
 }
 
-/* ---- Preset Kompe ---- */
 .kompe-preset-actions {
   display: flex;
   align-items: center;
@@ -2757,7 +2766,6 @@ button.kompe-preset-item:hover {
   text-overflow: ellipsis;
 }
 
-/* ---- Trap explore panel ---- */
 .kompe-trap-length-row {
   display: flex;
   gap: 6px;
@@ -2988,7 +2996,6 @@ button.kompe-preset-item:hover {
   flex: 1;
 }
 
-/* ---- Kelola Trap Word modal: tabs + expand/collapse cards ---- */
 .kelola-trap-tabs {
   display: flex;
   gap: 8px;
@@ -3124,7 +3131,6 @@ button.kompe-preset-item:hover {
 .kelola-trap-card-body button[data-untrap] {
   align-self: flex-start;
 }
-
 
 @media (min-width:900px) {
   .kompe-groups {
